@@ -22,18 +22,21 @@
             padding: 12px;
             box-sizing: border-box;
         }
+        /* Adjusted Toolbar height to fit 60px button snugly */
         .toolbar {
             display: flex;
             gap: 12px;
             align-items: center;
             margin-bottom: 12px;
             flex-shrink: 0;
+            min-height: 60px; 
         }
         h1 {
             color: #81c784;
             margin: 0;
             font-size: 1.25rem;
         }
+        /* Standard height for Open Folder button */
         .btn-open {
             background-color: #81c784;
             color: #1e1e1e;
@@ -42,17 +45,50 @@
             border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
+            transition: background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
         .btn-open:hover { background-color: #66bb6a; }
+        
         .local-note {
             color: #78909c;
             font-size: 12px;
             margin-left: 8px;
         }
+        .donation-wrapper {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        /* TipMe button with fixed 60px height */
+        .btn-tipme {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 0 16px;
+            border: 1px solid #ffffff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+            height: 60px; 
+            box-sizing: border-box;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .btn-tipme:hover {
+            opacity: 0.9;
+        }
+        
         input[type="file"] { display: none; }
 
-        /* Layout: file list | image view | data view */
         .main-layout {
             display: flex;
             flex: 1;
@@ -69,12 +105,17 @@
             flex-direction: column;
             overflow: hidden;
         }
+        /* Adjusted panel header height */
         .panel-filelist .header {
-            padding: 10px 12px;
+            padding: 8px 12px;
             background: #383838;
             border-bottom: 1px solid #444;
             font-weight: bold;
             color: #81c784;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 40px; 
         }
         .sort-bar {
             padding: 8px 12px;
@@ -109,11 +150,13 @@
             cursor: pointer;
         }
         .sort-bar .btn-collapse:hover { background: #455a64; }
+        
         .file-list {
             flex: 1;
             overflow: auto;
             padding: 8px;
             min-width: 0;
+            outline: none;
         }
         .file-item {
             padding: 8px 10px;
@@ -122,17 +165,23 @@
             margin-bottom: 2px;
             font-size: 13px;
             white-space: nowrap;
+            border: 1px solid transparent;
         }
         .file-item:hover { background: #383838; }
         .file-item.active {
             background: #37474f;
             color: #81c784;
+            border-color: #546e7a;
+        }
+        .file-item.kb-focused {
+            background: #3e4e56;
+            outline: 1px solid #81c784;
         }
         .file-item.folder {
             color: #90a4ae;
             font-weight: 500;
         }
-        /* Tree view */
+
         .tree-node { margin-bottom: 2px; }
         .tree-folder {
             display: flex;
@@ -146,13 +195,11 @@
             font-weight: 500;
             user-select: none;
         }
-        .tree-folder:hover { background: #383838; }
         .tree-toggle {
             width: 16px;
             text-align: center;
             font-size: 10px;
             color: #81c784;
-            transition: transform 0.15s ease;
         }
         .tree-node.collapsed .tree-toggle { transform: rotate(-90deg); }
         .tree-children {
@@ -193,7 +240,6 @@
             object-fit: contain;
             border-radius: 8px;
             border: 1px solid #444;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
         .panel-data {
             flex: 1;
@@ -218,7 +264,6 @@
             padding: 12px;
         }
 
-        /* Tabs Style */
         .tabs {
             display: flex;
             margin-bottom: 10px;
@@ -228,9 +273,9 @@
             background: none;
             border: none;
             color: #888;
-            padding: 10px 20px;
+            padding: 10px 15px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 13px;
         }
         .tab-btn.active {
             color: #81c784;
@@ -241,122 +286,106 @@
             background-color: #263238;
             border: 1px solid #37474f;
             border-radius: 8px;
-            padding: 12px 15px;
-            margin-bottom: 15px;
-        }
-        .params-block .params-title {
-            color: #81c784;
-            font-size: 0.9em;
-            font-weight: bold;
-            margin-bottom: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
         }
         .params-grid {
             display: grid;
             grid-template-columns: auto 1fr;
-            gap: 6px 16px;
+            gap: 4px 12px;
             font-size: 13px;
         }
-        .params-grid .param-label { color: #90a4ae; }
-        .params-grid .param-value { color: #e0e0e0; word-break: break-all; }
+        .param-label { color: #90a4ae; font-weight: bold; }
+        .param-value { color: #e0e0e0; }
 
         .prompt-box {
             background-color: #263238;
             border: 1px solid #37474f;
             border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
+            padding: 12px;
+            margin-bottom: 12px;
         }
         .prompt-label {
-            color: #90a4ae;
-            font-size: 0.85em;
-            margin-bottom: 5px;
-            font-weight: bold;
+            color: #81c784;
+            font-size: 12px;
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
         .prompt-text {
             white-space: pre-wrap;
             color: #fff;
             font-family: 'Consolas', monospace;
             background: #121212;
-            padding: 10px;
+            padding: 8px;
             border-radius: 4px;
+            font-size: 13px;
             border: 1px solid #333;
+            word-break: break-all;
         }
 
         .json-viewer {
             background-color: #121212;
-            padding: 15px;
+            padding: 12px;
             border-radius: 8px;
-            overflow-x: auto;
-            max-height: 500px;
-            white-space: pre-wrap;
             font-family: 'Consolas', monospace;
             font-size: 12px;
             color: #a5d6a7;
+            white-space: pre-wrap;
             border: 1px solid #333;
+            overflow-x: auto;
         }
 
-        .meta-all-list { margin-top: 10px; }
-        
         .hidden { display: none; }
         .btn {
             background-color: #81c784;
             color: #1e1e1e;
-            padding: 5px 12px;
+            padding: 4px 8px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-size: 11px;
             font-weight: bold;
-            font-size: 12px;
         }
         .btn:hover { background-color: #66bb6a; }
 
-        /* Dialog block */
         .dialog-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 9998;
             align-items: center;
             justify-content: center;
         }
-        .dialog-overlay.is-open {
-            display: flex;
-        }
+        .dialog-overlay.is-open { display: flex; }
         .dialog-block {
             background: #2d2d2d;
-            border: 1px solid #555;
             border-radius: 12px;
             padding: 24px;
-            min-width: 320px;
-            max-width: 90vw;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            z-index: 9999;
+            max-width: 400px;
+            text-align: center;
         }
-        .dialog-block h2 {
-            margin: 0 0 12px 0;
-            color: #81c784;
-            font-size: 1.1rem;
-        }
-        .dialog-block p {
-            color: #b0bec5;
-            font-size: 13px;
-            margin: 0 0 20px 0;
-            line-height: 1.5;
-        }
-        .dialog-actions {
+
+        /* Footer Styles */
+        footer {
             display: flex;
-            gap: 10px;
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 4px 4px 4px;
+            font-size: 11px;
+            color: #78909c;
+            border-top: 1px solid #333;
+            flex-shrink: 0;
+            margin-top: 8px;
         }
-        .dialog-actions .btn-cancel {
-            background: #455a64;
-            color: #e0e0e0;
+        footer .footer-left {
+            display: flex;
+            gap: 8px;
         }
-        .dialog-actions .btn-cancel:hover {
-            background: #546e7a;
+        footer .footer-right {
+            text-align: right;
         }
     </style>
 </head>
@@ -365,79 +394,92 @@
 <div id="folderDialogOverlay" class="dialog-overlay" onclick="closeFolderDialog(event)">
     <div class="dialog-block" onclick="event.stopPropagation()">
         <h2>📂 Select Image Folder</h2>
-        <p id="folderDialogDesc">Click the button below to open the system folder picker. Select the folder containing your .png files.</p>
-        <div class="dialog-actions">
-            <button type="button" class="btn btn-cancel" onclick="closeFolderDialog()">Cancel</button>
-            <button type="button" class="btn-open" onclick="openFolderPickerFromDialog()">Choose Folder</button>
+        <p>Choose a folder containing your AI generated images.</p>
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+            <button class="btn" style="background: #455a64; color: white; padding: 10px 20px;" onclick="closeFolderDialog()">Cancel</button>
+            <button class="btn-open" onclick="openFolderPickerFromDialog()">Choose Folder</button>
         </div>
     </div>
 </div>
 
 <div class="container">
     <div class="toolbar">
-        <h1>🔍 AI Image Metadata Reader</h1>
-        <button type="button" class="btn-open" onclick="openFolderDialog()">📂 Select Folder</button>
-        <span class="local-note" id="localNote">Runs locally only — No files are uploaded. If your browser asks to "Upload files", it is just granting permission to read them locally.</span>
-        <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="pok29dev" data-color="#FFDD00" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
-        <input type="file" id="folderInput" webkitdirectory directory multiple accept="image/png" style="display: none;">
+        <h1>🔍 AI Metadata Reader</h1>
+        <span class="local-note">Local access only. No data uploaded.</span>
+        
+        <div class="donation-wrapper">
+            <!-- 60px height button -->
+            <a href="https://tipme.in.th/pok29dev" target="_blank" class="btn-tipme">
+                ☕ ช่วยค่ากาแฟ
+            </a>
+            <!-- Standard BMC button -->
+            <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="pok29dev" data-color="#FFDD00" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
+        </div>
+
+        <input type="file" id="folderInput" webkitdirectory directory multiple style="display: none;">
     </div>
 
     <div class="main-layout">
         <div class="panel-filelist">
-            <div class="header">Image Browser — Folders / Files</div>
+            <div class="header">
+                <span>Images Browser</span>
+                <button type="button" class="btn-open" onclick="openFolderDialog()">📂 Open Folder</button>
+            </div>
             <div class="sort-bar">
-                <label>Sort by:</label>
                 <select id="sortBy" onchange="applySort()">
-                    <option value="name">Name</option>
-                    <option value="date">Date</option>
-                    <option value="type">Type</option>
+                    <option value="name">Sort by Name</option>
+                    <option value="date">Sort by Date</option>
                 </select>
                 <button type="button" class="btn-collapse" onclick="collapseAll()">Collapse all</button>
             </div>
-            <div id="fileList" class="file-list">
-                <p style="color: #666; padding: 12px; margin: 0;">Open a folder to list .png files from your device.</p>
+            <div id="fileList" class="file-list" tabindex="0">
+                <p style="color: #666; padding: 12px; margin: 0;">Please select a folder.</p>
             </div>
         </div>
 
         <div class="panel-image">
-            <div class="header">Image View</div>
+            <div class="header">Preview</div>
             <div class="image-wrap">
                 <img id="preview" src="" alt="Preview" style="display: none;">
-                <p id="imagePlaceholder" style="color: #666; margin: 0;">Select an image from the list</p>
+                <p id="imagePlaceholder" style="color: #666;">Select an image</p>
             </div>
         </div>
 
         <div class="panel-data">
-            <div class="header">Data View</div>
+            <div class="header">Metadata</div>
             <div class="data-inner">
                 <div class="tabs">
-                    <button class="tab-btn active" onclick="switchTab('simple')">✨ Prompt Text</button>
-                    <button class="tab-btn" onclick="switchTab('raw')">📝 Raw JSON</button>
-                    <button class="tab-btn" onclick="switchTab('allmeta')">📋 All Metadata</button>
+                    <button id="tab-simple" class="tab-btn active" onclick="switchTab('simple')">✨ Prompt</button>
+                    <button id="tab-raw" class="tab-btn" onclick="switchTab('raw')">📝 Raw JSON</button>
+                    <button id="tab-all" class="tab-btn" onclick="switchTab('all')">📋 All Metadata</button>
                 </div>
                 <div id="content-simple">
                     <div id="paramsBlock" class="params-block" style="display: none;">
-                        <div class="params-title">Parameters</div>
                         <div class="params-grid" id="paramsGrid"></div>
                     </div>
                     <div id="extractedPrompts">
-                        <p style="color: #777; text-align: center;">No prompt found — Select an image to view metadata</p>
+                        <p style="color: #777; text-align: center;">Metadata will appear here</p>
                     </div>
                 </div>
                 <div id="content-raw" class="hidden">
-                    <h3>Prompt (API) JSON</h3>
                     <div class="json-viewer" id="jsonPrompt">No Data</div>
-                    <br>
-                    <h3>Workflow JSON</h3>
-                    <div class="json-viewer" id="jsonWorkflow">No Data</div>
                 </div>
-                <div id="content-allmeta" class="hidden">
-                    <p style="color: #90a4ae; font-size: 12px; margin-bottom: 10px;">All metadata stored in PNG (including non-ComfyUI chunks)</p>
-                    <div id="allPngMeta" class="meta-all-list"></div>
+                <div id="content-all" class="hidden">
+                    <div class="json-viewer" id="allMetadataView">No Data</div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Added Footer -->
+    <footer>
+        <div class="footer-left">
+            @29dev.com. · Terms & Privacy · Service status
+        </div>
+        <div class="footer-right">
+            Version 0.1.0 Public Update: 260223.1500
+        </div>
+    </footer>
 </div>
 
 <script>
@@ -446,436 +488,273 @@
     const imagePlaceholder = document.getElementById('imagePlaceholder');
     const fileListEl = document.getElementById('fileList');
 
-    const isElectron = typeof window.electronAPI === 'object';
     let fileMap = {};
     let currentFileItems = [];
+    let focusedIndex = -1;
 
-    if (isElectron) {
-        document.getElementById('folderDialogDesc').textContent = 'Click below to select a folder containing .png files (Desktop App Mode).';
-        document.getElementById('localNote').textContent = 'Desktop App — Accessing local files only.';
-    } else {
-        folderInput.addEventListener('change', handleFolder);
-    }
+    folderInput.addEventListener('change', handleFolder);
+    fileListEl.addEventListener('keydown', handleKeyboardNav);
 
-    function base64ToArrayBuffer(base64) {
-        const bin = atob(base64);
-        const buf = new ArrayBuffer(bin.length);
-        const view = new Uint8Array(buf);
-        for (let i = 0; i < bin.length; i++) view[i] = bin.charCodeAt(i);
-        return buf;
-    }
-
-    function openFolderDialog() {
-        document.getElementById('folderDialogOverlay').classList.add('is-open');
-    }
-    function closeFolderDialog(event) {
-        if (event && event.target !== event.currentTarget) return;
-        const el = document.getElementById('folderDialogOverlay');
-        if (el) el.classList.remove('is-open');
-    }
-    function openFolderPickerFromDialog() {
-        if (isElectron) {
-            window.electronAPI.selectFolder().then(files => {
-                closeFolderDialog();
-                if (files && files.length) handleFolderFromElectron(files);
-            });
-        } else {
-            folderInput.click();
-            closeFolderDialog();
-        }
-    }
-
-    function handleFolderFromElectron(files) {
-        fileMap = {};
-        currentFileItems = files.map(f => {
-            fileMap[f.path] = f.fullPath;
-            return { path: f.path, name: f.name, folderPath: f.folderPath, lastModified: f.lastModified || 0, ext: f.ext || '' };
-        });
-        const sortBy = document.getElementById('sortBy');
-        renderFileList(currentFileItems, sortBy ? sortBy.value : 'name');
-    }
+    function openFolderDialog() { document.getElementById('folderDialogOverlay').classList.add('is-open'); }
+    function closeFolderDialog() { document.getElementById('folderDialogOverlay').classList.remove('is-open'); }
+    function openFolderPickerFromDialog() { folderInput.click(); closeFolderDialog(); }
 
     function handleFolder(e) {
         const files = e.target.files;
         if (!files || files.length === 0) return;
-
-        closeFolderDialog();
-        fileMap = {};
-        currentFileItems = [];
-
+        fileMap = {}; currentFileItems = []; focusedIndex = -1;
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             if (!file.name.toLowerCase().endsWith('.png')) continue;
-            if (file.name.startsWith('._')) continue; 
+            if (file.name.startsWith('._') || file.name === '.DS_Store') continue;
             const path = file.webkitRelativePath || file.name;
             fileMap[path] = file;
             const parts = path.split('/');
             const name = parts.pop();
-            const folderPath = parts.join('/');
-            const ext = (name.includes('.') ? name.split('.').pop() : '').toLowerCase();
-            currentFileItems.push({ path, name, file, folderPath, lastModified: file.lastModified || 0, ext });
+            const folderPath = parts.join('/') || '(Root)';
+            currentFileItems.push({ path, name, file, folderPath, lastModified: file.lastModified || 0 });
         }
-
-        const sortBy = document.getElementById('sortBy');
-        renderFileList(currentFileItems, sortBy ? sortBy.value : 'name');
+        applySort();
     }
 
-    function applySort() {
-        const sortBy = document.getElementById('sortBy');
-        if (!sortBy || !currentFileItems.length) return;
-        renderFileList(currentFileItems, sortBy.value);
-    }
-
-    function collapseAll() {
-        fileListEl.querySelectorAll('.tree-node').forEach(node => node.classList.add('collapsed'));
-    }
+    function applySort() { renderFileList(currentFileItems, document.getElementById('sortBy').value); }
+    function collapseAll() { fileListEl.querySelectorAll('.tree-node').forEach(n => n.classList.add('collapsed')); }
 
     function renderFileList(items, sortMode) {
-        if (!items.length) {
-            fileListEl.innerHTML = '<p style="color:#666; padding:12px; margin:0;">No .png files found in this folder</p>';
-            return;
-        }
-
-        const sorted = [...items].sort((a, b) => {
-            if (sortMode === 'name') return (a.name || '').localeCompare(b.name || '', undefined, { numeric: true });
-            if (sortMode === 'date') return (b.lastModified || 0) - (a.lastModified || 0);
-            if (sortMode === 'type') {
-                const c = (a.ext || '').localeCompare(b.ext || '');
-                return c !== 0 ? c : (a.name || '').localeCompare(b.name || '', undefined, { numeric: true });
-            }
-            return 0;
-        });
-
-        const byFolder = {};
-        sorted.forEach(it => {
-            const key = it.folderPath || '(Root)';
-            if (!byFolder[key]) byFolder[key] = [];
-            byFolder[key].push(it);
-        });
-        const sortedFolders = Object.keys(byFolder).sort((a, b) => a.localeCompare(b));
-
+        if (!items.length) { fileListEl.innerHTML = '<p style="padding:12px;">No images found.</p>'; return; }
+        const sorted = [...items].sort((a,b) => sortMode==='name' ? a.name.localeCompare(b.name, undefined, {numeric:true}) : b.lastModified - a.lastModified);
+        const groups = {};
+        sorted.forEach(it => { if(!groups[it.folderPath]) groups[it.folderPath]=[]; groups[it.folderPath].push(it); });
+        
         let html = '';
-        sortedFolders.forEach(folder => {
-            const folderKey = escapeAttr(folder);
-            const folderLabel = folder === '(Root)' ? '(Root)' : escapeHtml(folder);
-            html += `<div class="tree-node" data-folder="${folderKey}">`;
-            html += `<div class="tree-folder file-item folder" data-folder-key="${folderKey}">`;
-            html += `<span class="tree-toggle">▼</span><span>📁 ${folderLabel}</span>`;
-            html += `</div>`;
-            html += `<div class="tree-children">`;
-            byFolder[folder].forEach(it => {
-                html += `<div class="file-item" data-path="${escapeAttr(it.path)}" title="${escapeAttr(it.path)}">${escapeHtml(it.name)}</div>`;
+        Object.keys(groups).sort().forEach(folder => {
+            html += `<div class="tree-node" data-folder="${escapeAttr(folder)}">
+                <div class="tree-folder file-item folder"><span class="tree-toggle">▼</span><span>📁 ${escapeHtml(folder)}</span></div>
+                <div class="tree-children">`;
+            groups[folder].forEach(it => {
+                html += `<div class="file-item clickable-file" data-path="${escapeAttr(it.path)}">${escapeHtml(it.name)}</div>`;
             });
             html += `</div></div>`;
         });
-
         fileListEl.innerHTML = html;
+        attachListeners();
+    }
 
-        fileListEl.querySelectorAll('.tree-folder').forEach(el => {
-            el.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const node = this.closest('.tree-node');
-                if (node) node.classList.toggle('collapsed');
-            });
-        });
+    function attachListeners() {
+        fileListEl.querySelectorAll('.tree-folder').forEach(el => el.onclick = () => el.closest('.tree-node').classList.toggle('collapsed'));
+        fileListEl.querySelectorAll('.clickable-file').forEach(el => el.onclick = () => setActiveFile(el));
+    }
 
-        fileListEl.querySelectorAll('.tree-children .file-item').forEach(el => {
-            el.addEventListener('click', function(e) {
-                e.stopPropagation();
-                fileListEl.querySelectorAll('.file-item').forEach(x => x.classList.remove('active'));
-                this.classList.add('active');
-                const path = this.getAttribute('data-path');
-                if (path) selectFile(path);
-            });
+    function setActiveFile(el) {
+        fileListEl.querySelectorAll('.file-item').forEach(x => x.classList.remove('active', 'kb-focused'));
+        el.classList.add('active');
+        selectFile(el.getAttribute('data-path'));
+        focusedIndex = Array.from(getVisibleItems()).indexOf(el);
+    }
+
+    function getVisibleItems() {
+        return Array.from(fileListEl.querySelectorAll('.file-item')).filter(el => {
+            const node = el.closest('.tree-node');
+            return node && !node.classList.contains('collapsed') || el.classList.contains('folder');
         });
     }
 
-    function escapeAttr(s) {
-        return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    function handleKeyboardNav(e) {
+        const items = getVisibleItems();
+        if (!items.length) return;
+        if (e.key === 'ArrowDown') { e.preventDefault(); focusedIndex = Math.min(focusedIndex+1, items.length-1); updateKbFocus(items); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); focusedIndex = Math.max(focusedIndex-1, 0); updateKbFocus(items); }
+        else if (e.key === 'Enter') { e.preventDefault(); if(focusedIndex>=0) items[focusedIndex].click(); }
     }
-    function escapeHtml(s) {
-        const div = document.createElement('div');
-        div.textContent = s;
-        return div.innerHTML;
+
+    function updateKbFocus(items) {
+        items.forEach(it => it.classList.remove('kb-focused'));
+        const active = items[focusedIndex];
+        if (active) { active.classList.add('kb-focused'); active.scrollIntoView({ block: 'nearest' }); }
     }
 
     function selectFile(path) {
-        const fileOrPath = fileMap[path];
-        if (!fileOrPath) return;
+        const file = fileMap[path];
+        if (!file) return;
+        if (previewImg.src) URL.revokeObjectURL(previewImg.src);
+        previewImg.src = URL.createObjectURL(file);
+        previewImg.style.display = 'block';
+        imagePlaceholder.style.display = 'none';
 
-        if (isElectron) {
-            const fullPath = fileOrPath;
-            previewImg.style.display = 'block';
-            imagePlaceholder.style.display = 'none';
-            window.electronAPI.readImage(fullPath).then(r => {
-                if (r.error) return;
-                if (previewImg.src) URL.revokeObjectURL(previewImg.src);
-                previewImg.src = 'data:image/png;base64,' + r.base64;
-                const buffer = base64ToArrayBuffer(r.base64);
-                extractPngMetadata(buffer);
-            });
-        } else {
-            const file = fileOrPath;
-            const imgUrl = URL.createObjectURL(file);
-            if (previewImg.src) URL.revokeObjectURL(previewImg.src);
-            previewImg.src = imgUrl;
-            previewImg.style.display = 'block';
-            imagePlaceholder.style.display = 'none';
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                extractPngMetadata(event.target.result);
-            };
-            reader.readAsArrayBuffer(file);
-        }
-    }
-
-    function clearDataView() {
-        const block = document.getElementById('paramsBlock');
-        const grid = document.getElementById('paramsGrid');
-        if (block) block.style.display = 'none';
-        if (grid) grid.innerHTML = '';
-        const container = document.getElementById('extractedPrompts');
-        if (container) container.innerHTML = '';
-        const jp = document.getElementById('jsonPrompt');
-        const jw = document.getElementById('jsonWorkflow');
-        if (jp) jp.textContent = '';
-        if (jw) jw.textContent = '';
-        const allMeta = document.getElementById('allPngMeta');
-        if (allMeta) allMeta.innerHTML = '';
+        const reader = new FileReader();
+        reader.onload = (e) => extractPngMetadata(e.target.result);
+        reader.readAsArrayBuffer(file);
     }
 
     function extractPngMetadata(buffer) {
-        clearDataView();
         const dataView = new DataView(buffer);
-        const textDecoder = new TextDecoder('utf-8');
+        const decoder = new TextDecoder('utf-8');
         let offset = 8;
-        let promptData = null;
-        let workflowData = null;
-        const allPngMeta = [];
+        let metadata = {};
 
         while (offset < dataView.byteLength) {
             const length = dataView.getUint32(offset);
-            const type = textDecoder.decode(new Uint8Array(buffer, offset + 4, 4));
+            const type = decoder.decode(new Uint8Array(buffer, offset + 4, 4));
             const payload = new Uint8Array(buffer, offset + 8, length);
 
-            if (type === 'tEXt') {
-                let nullIndex = -1;
-                for (let i = 0; i < length; i++) { if (payload[i] === 0) { nullIndex = i; break; } }
-                if (nullIndex !== -1) {
-                    const keyword = textDecoder.decode(payload.slice(0, nullIndex));
-                    const text = textDecoder.decode(payload.slice(nullIndex + 1));
-                    allPngMeta.push({ keyword, value: text, chunkType: 'tEXt' });
-                    if (keyword === 'prompt') try { promptData = JSON.parse(text); } catch (_) {}
-                    if (keyword === 'workflow') try { workflowData = JSON.parse(text); } catch (_) {}
+            if (type === 'tEXt' || type === 'iTXt') {
+                let nullIdx = payload.indexOf(0);
+                if (nullIdx !== -1) {
+                    const keyword = decoder.decode(payload.slice(0, nullIdx));
+                    let text = "";
+                    if (type === 'tEXt') {
+                        text = decoder.decode(payload.slice(nullIdx + 1));
+                    } else {
+                        let textPos = nullIdx + 3;
+                        let langIdx = payload.indexOf(0, textPos);
+                        let transIdx = payload.indexOf(0, langIdx + 1);
+                        text = decoder.decode(payload.slice(transIdx + 1));
+                    }
+                    metadata[keyword] = text;
                 }
-            } else if (type === 'zTXt') {
-                let nullIndex = -1;
-                for (let i = 0; i < length; i++) { if (payload[i] === 0) { nullIndex = i; break; } }
-                if (nullIndex !== -1) {
-                    const keyword = textDecoder.decode(payload.slice(0, nullIndex));
-                    allPngMeta.push({ keyword, value: '(Compressed Data)', chunkType: 'zTXt' });
-                }
-            } else if (type === 'iTXt') {
-                let nullIndex = -1;
-                for (let i = 0; i < length; i++) { if (payload[i] === 0) { nullIndex = i; break; } }
-                if (nullIndex !== -1) {
-                    const keyword = textDecoder.decode(payload.slice(0, nullIndex));
-                    const compFlag = payload[nullIndex + 1];
-                    let pos = nullIndex + 3;
-                    for (let i = pos; i < length; i++) { if (payload[i] === 0) { pos = i + 1; break; } }
-                    for (let i = pos; i < length; i++) { if (payload[i] === 0) { pos = i + 1; break; } }
-                    const raw = payload.slice(pos);
-                    const value = compFlag === 0 ? textDecoder.decode(raw) : '(Compressed Data)';
-                    allPngMeta.push({ keyword, value, chunkType: 'iTXt' });
-                }
-            }
+            } else if (type === 'IEND') break;
             offset += 12 + length;
         }
-
-        if (!promptData && allPngMeta.length) {
-            for (const entry of allPngMeta) {
-                if (entry.keyword === 'prompt' || entry.keyword === 'workflow') continue;
-                try {
-                    const parsed = JSON.parse(entry.value);
-                    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed) && Object.values(parsed).some(v => v && v.class_type)) {
-                        promptData = parsed;
-                        break;
-                    }
-                } catch (_) {}
-            }
-        }
-
-        document.getElementById('jsonPrompt').textContent = promptData ? JSON.stringify(promptData, null, 2) : '';
-        document.getElementById('jsonWorkflow').textContent = workflowData ? JSON.stringify(workflowData, null, 2) : '';
-
-        renderParamsBlock(promptData);
-        extractAndShowPrompts(promptData);
-        extractNonStandardPrompts(allPngMeta);
-        renderAllPngMetadata(allPngMeta);
-    }
-
-    function extractNonStandardPrompts(allPngMeta) {
-        const container = document.getElementById('extractedPrompts');
-        if (!container || !allPngMeta || allPngMeta.length === 0) return;
-        const standardKeywords = { prompt: true, workflow: true };
-
-        for (const entry of allPngMeta) {
-            const kw = (entry.keyword || '').toLowerCase();
-            const value = entry.value;
-            if (typeof value !== 'string' || value.length < 10) continue;
-            if (standardKeywords[kw]) continue;
-
-            if (kw.indexOf('xmp') !== -1 || kw.indexOf('adobe') !== -1 || kw.indexOf('xml') !== -1) {
-                const boxes = parseXMPForPrompts(value);
-                boxes.forEach(b => { appendPromptBox(container, b.title, b.text); });
-                continue;
-            }
-
-            if (value.length > 50 || value.trim().indexOf('{') !== 0) {
-                appendPromptBox(container, 'Metadata: ' + entry.keyword, value);
-            }
-        }
-    }
-
-    function parseXMPForPrompts(xmlStr) {
-        const boxes = [];
-        try {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(xmlStr, 'text/xml');
-            const ns = { dc: 'http://purl.org/dc/elements/1.1/', rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', exif: 'http://ns.adobe.com/exif/1.0/' };
-            let descriptionText = '';
-            let userCommentText = '';
-            const descNodes = doc.getElementsByTagNameNS(ns.dc, 'description');
-            if (descNodes.length) {
-                const rdfLi = descNodes[0].getElementsByTagNameNS(ns.rdf, 'li');
-                if (rdfLi.length) descriptionText = rdfLi[0].textContent || '';
-            }
-            const userCommentNodes = doc.getElementsByTagNameNS(ns.exif, 'UserComment');
-            if (userCommentNodes.length) {
-                const rdfLi = userCommentNodes[0].getElementsByTagNameNS(ns.rdf, 'li');
-                if (rdfLi.length) userCommentText = rdfLi[0].textContent || '';
-            }
-            if (userCommentText) {
-                try {
-                    const j = JSON.parse(userCommentText);
-                    if (j.c) boxes.push({ title: 'Draw Things — Positive', text: j.c });
-                    if (j.uc) boxes.push({ title: 'Draw Things — Negative', text: j.uc });
-                } catch (_) {}
-            }
-            if (descriptionText.trim() && boxes.length === 0) boxes.push({ title: 'XMP Description', text: descriptionText.trim() });
-        } catch (_) {}
-        return boxes;
-    }
-
-    function appendPromptBox(container, title, text) {
-        const textId = 'ptext-ns-' + Math.random().toString(36).slice(2, 9);
-        const box = document.createElement('div');
-        box.className = 'prompt-box';
-        box.innerHTML = `
-            <div class="prompt-label">
-                <span>${escapeHtml(title)}</span>
-                <button class="btn" onclick="copyText('${textId}')">Copy</button>
-            </div>
-            <div class="prompt-text" id="${textId}">${escapeHtml(text)}</div>
-        `;
-        container.appendChild(box);
-    }
-
-    function renderAllPngMetadata(entries) {
-        const container = document.getElementById('allPngMeta');
-        if (!container) return;
-        if (!entries || entries.length === 0) {
-            container.innerHTML = '<p style="color:#666;">No metadata found in PNG</p>';
-            return;
-        }
-        const obj = {};
-        entries.forEach(entry => {
-            const key = entry.chunkType ? `${entry.keyword} (${entry.chunkType})` : entry.keyword;
-            obj[key] = entry.value;
-        });
-        container.innerHTML = '<pre class="json-viewer">' + escapeHtml(JSON.stringify(obj, null, 2)) + '</pre>';
-    }
-
-    function renderParamsBlock(promptJson) {
-        const block = document.getElementById('paramsBlock');
-        const grid = document.getElementById('paramsGrid');
-        if (!block || !grid) return;
-        const params = extractParamsFromPrompt(promptJson);
-        if (!params || (!params.modelName && !params.size && !params.sampler)) {
-            block.style.display = 'none';
-            return;
-        }
-        const rows = [];
-        if (params.modelName) rows.push(['Model', params.modelName]);
-        if (params.size) rows.push(['Size', params.size]);
-        if (params.sampler) rows.push(['Sampler', params.sampler]);
-        if (params.scheduler) rows.push(['Scheduler', params.scheduler]);
-        if (params.step != null) rows.push(['Steps', String(params.step)]);
-        if (params.cfg != null) rows.push(['CFG', String(params.cfg)]);
-
-        grid.innerHTML = rows.map(([l, v]) => `<span class="param-label">${escapeHtml(l)}</span><span class="param-value">${escapeHtml(v)}</span>`).join('');
-        block.style.display = 'block';
-    }
-
-    function extractParamsFromPrompt(promptJson) {
-        if (!promptJson || typeof promptJson !== 'object') return null;
-        let modelName = null, size = null, sampler = null, scheduler = null, step = null, cfg = null;
-        for (const node of Object.values(promptJson)) {
-            const type = node.class_type;
-            const inputs = node.inputs || {};
-            if (type?.includes('Sampler')) {
-                sampler = inputs.sampler_name || sampler;
-                scheduler = inputs.scheduler || scheduler;
-                step = inputs.steps || step;
-                cfg = inputs.cfg || cfg;
-            }
-            if (type?.includes('EmptyLatentImage')) size = `${inputs.width} × ${inputs.height}`;
-            if (type?.includes('Loader')) modelName = inputs.ckpt_name || inputs.unet_name || modelName;
-        }
-        return { modelName, size, sampler, scheduler, step, cfg };
-    }
-
-    function extractAndShowPrompts(promptJson) {
-        const container = document.getElementById('extractedPrompts');
-        container.innerHTML = "";
-        if (!promptJson) return;
-        let foundCount = 0;
-        for (const [key, node] of Object.entries(promptJson)) {
-            let textValue = null;
-            const nodeType = node.class_type;
-            if (nodeType === "PrimitiveStringMultiline" || nodeType === "String") textValue = node.inputs?.value;
-            else if (nodeType?.includes("CLIPTextEncode")) textValue = node.inputs?.text;
-            else if (node.inputs?.text && typeof node.inputs.text === 'string' && node.inputs.text.length > 5) textValue = node.inputs.text;
-
-            if (textValue && textValue.trim()) {
-                foundCount++;
-                const textId = `ptext-${key}`;
-                const box = document.createElement('div');
-                box.className = 'prompt-box';
-                box.innerHTML = `<div class="prompt-label"><span>Node ${key} (${nodeType})</span><button class="btn" onclick="copyText('${textId}')">Copy</button></div><div class="prompt-text" id="${textId}">${textValue}</div>`;
-                container.appendChild(box);
-            }
-        }
-        if (foundCount === 0 && container.innerHTML === "") container.innerHTML = '<p style="color: #777; text-align: center;">No valid prompts detected in nodes.</p>';
-    }
-
-    function switchTab(tabName) {
-        const tabs = ['simple', 'raw', 'allmeta'];
-        tabs.forEach(t => {
-            const el = document.getElementById('content-' + t);
-            if (el) el.classList.add('hidden');
-        });
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         
-        document.getElementById('content-' + tabName).classList.remove('hidden');
-        const activeIdx = tabs.indexOf(tabName);
-        document.querySelectorAll('.tab-btn')[activeIdx].classList.add('active');
+        let promptJson = null;
+        const keys = ['prompt', 'workflow', 'parameters', 'comment'];
+        for (const k of keys) {
+            const metaKey = Object.keys(metadata).find(mk => mk.toLowerCase() === k);
+            if (metaKey && metadata[metaKey]) {
+                try { 
+                    const parsed = JSON.parse(metadata[metaKey]);
+                    if (typeof parsed === 'object') { promptJson = parsed; break; }
+                } catch(e) {
+                    if (metaKey.toLowerCase() === 'parameters') promptJson = { webui_raw: metadata[metaKey] };
+                }
+            }
+        }
+        renderData(promptJson, metadata);
     }
 
-    function copyText(elementId) {
-        const text = document.getElementById(elementId).innerText;
-        navigator.clipboard.writeText(text).then(() => { alert('Copied to clipboard!'); });
+    function renderData(json, allMeta) {
+        const container = document.getElementById('extractedPrompts');
+        const jsonEl = document.getElementById('jsonPrompt');
+        const allMetaEl = document.getElementById('allMetadataView');
+        const grid = document.getElementById('paramsGrid');
+        const block = document.getElementById('paramsBlock');
+
+        container.innerHTML = ""; grid.innerHTML = "";
+        block.style.display = 'none';
+        
+        jsonEl.textContent = json ? JSON.stringify(json, null, 2) : "No valid JSON metadata found.";
+        allMetaEl.textContent = Object.keys(allMeta).length > 0 ? JSON.stringify(allMeta, null, 2) : "No text metadata found.";
+
+        if (!json) {
+            const metaEntries = Object.entries(allMeta);
+            if (metaEntries.length > 0) {
+                metaEntries.forEach(([k, v]) => {
+                    const id = 'p-raw-' + Math.random().toString(36).substr(2, 5);
+                    container.innerHTML += `
+                        <div class="prompt-box">
+                            <div class="prompt-label">
+                                <span>Keyword: ${k}</span>
+                                <button class="btn" onclick="copyText('${id}')">Copy</button>
+                            </div>
+                            <div class="prompt-text" id="${id}">${escapeHtml(v)}</div>
+                        </div>`;
+                });
+            } else {
+                container.innerHTML = "<p style='text-align:center; color:#777;'>No recognized prompt found.</p>";
+            }
+            return;
+        }
+
+        if (json.webui_raw) {
+            const id = 'p-webui-' + Math.random().toString(36).substr(2, 5);
+            container.innerHTML = `
+                <div class="prompt-box">
+                    <div class="prompt-label">
+                        <span>Generation Data</span>
+                        <button class="btn" onclick="copyText('${id}')">Copy</button>
+                    </div>
+                    <div class="prompt-text" id="${id}">${escapeHtml(json.webui_raw)}</div>
+                </div>`;
+            return;
+        }
+
+        let foundText = false;
+        let model = "", steps = "", cfg = "", sampler = "", size = "";
+
+        for (const [key, node] of Object.entries(json)) {
+            const inputs = node.inputs || {};
+            const type = node.class_type;
+            
+            if (type?.includes("Sampler")) {
+                steps = inputs.steps || steps; cfg = inputs.cfg || cfg; sampler = inputs.sampler_name || sampler;
+            }
+            if (type?.includes("Loader")) model = inputs.ckpt_name || inputs.unet_name || model;
+            if (type?.includes("EmptyLatentImage")) size = `${inputs.width}x${inputs.height}`;
+
+            let txt = null;
+            if (type?.includes("CLIPTextEncode")) {
+                txt = inputs.text;
+            } else if (type === "String" || type === "PrimitiveStringMultiline") {
+                txt = inputs.value;
+            } else if (type === "Primitive string multiline [Crystools]") {
+                txt = inputs.string;
+            } else if (inputs.text && typeof inputs.text === 'string' && inputs.text.length > 2) {
+                txt = inputs.text;
+            }
+
+            if (txt && typeof txt === 'string' && txt.trim().length > 2) {
+                foundText = true;
+                const id = 'p-'+Math.random().toString(36).substr(2,5);
+                container.innerHTML += `
+                    <div class="prompt-box">
+                        <div class="prompt-label">
+                            <span>Node ID ${key}: ${type}</span>
+                            <button class="btn" onclick="copyText('${id}')">Copy</button>
+                        </div>
+                        <div class="prompt-text" id="${id}">${escapeHtml(txt)}</div>
+                    </div>`;
+            }
+        }
+
+        const pData = [['Model', model], ['Steps', steps], ['CFG', cfg], ['Sampler', sampler], ['Size', size]].filter(x => x[1]);
+        if (pData.length) {
+            block.style.display = 'block';
+            pData.forEach(([l, v]) => grid.innerHTML += `<span class="param-label">${l}:</span><span class="param-value">${v}</span>`);
+        }
+        if (!foundText && !pData.length) container.innerHTML = "<p style='text-align:center; color:#777;'>Metadata exists but no recognized content found.</p>";
     }
+
+    function switchTab(name) {
+        document.getElementById('content-simple').classList.toggle('hidden', name!=='simple');
+        document.getElementById('content-raw').classList.toggle('hidden', name!=='raw');
+        document.getElementById('content-all').classList.toggle('hidden', name!=='all');
+        
+        document.getElementById('tab-simple').classList.toggle('active', name==='simple');
+        document.getElementById('tab-raw').classList.toggle('active', name==='raw');
+        document.getElementById('tab-all').classList.toggle('active', name==='all');
+    }
+
+    function copyText(id) {
+        const text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            const b = document.querySelector(`button[onclick="copyText('${id}')"]`);
+            if (b) {
+                const oldText = b.innerText;
+                b.innerText = "Copied!";
+                b.style.backgroundColor = "#66bb6a";
+                setTimeout(() => {
+                    b.innerText = oldText;
+                    b.style.backgroundColor = "";
+                }, 1500);
+            }
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+        });
+    }
+
+    function escapeAttr(s) { return String(s).replace(/"/g, '&quot;'); }
+    function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 </script>
+
 </body>
 </html>
