@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,7 +52,7 @@
         }
         input[type="file"] { display: none; }
 
-        /* เลย์เอาต์ 3 คอลัมน์: file list | image view | data view */
+        /* Layout: file list | image view | data view */
         .main-layout {
             display: flex;
             flex: 1;
@@ -123,7 +123,6 @@
             font-size: 13px;
             white-space: nowrap;
         }
-        .tree-folder span:last-child { white-space: nowrap; min-width: 0; }
         .file-item:hover { background: #383838; }
         .file-item.active {
             background: #37474f;
@@ -162,7 +161,7 @@
             margin-left: 8px;
         }
         .tree-node.collapsed .tree-children { display: none; }
-        .tree-children .file-item { margin-bottom: 2px; }
+        
         .panel-image {
             flex: 1;
             min-width: 260px;
@@ -238,7 +237,6 @@
             border-bottom: 2px solid #81c784;
         }
         
-        /* Params block (model, size, sampler, ...) */
         .params-block {
             background-color: #263238;
             border: 1px solid #37474f;
@@ -261,7 +259,6 @@
         .params-grid .param-label { color: #90a4ae; }
         .params-grid .param-value { color: #e0e0e0; word-break: break-all; }
 
-        /* Text Area Style */
         .prompt-box {
             background-color: #263238;
             border: 1px solid #37474f;
@@ -300,38 +297,7 @@
             border: 1px solid #333;
         }
 
-        /* All PNG metadata (non-standard chunks) */
         .meta-all-list { margin-top: 10px; }
-        .meta-all-item {
-            background-color: #263238;
-            border: 1px solid #37474f;
-            border-radius: 8px;
-            padding: 10px 12px;
-            margin-bottom: 10px;
-        }
-        .meta-all-item .meta-key {
-            color: #81c784;
-            font-weight: bold;
-            font-size: 12px;
-            margin-bottom: 4px;
-        }
-        .meta-all-item .meta-key .chunk-type {
-            color: #78909c;
-            font-weight: normal;
-            font-size: 11px;
-        }
-        .meta-all-item .meta-val {
-            white-space: pre-wrap;
-            word-break: break-all;
-            font-family: 'Consolas', monospace;
-            font-size: 12px;
-            color: #e0e0e0;
-            background: #121212;
-            padding: 8px;
-            border-radius: 4px;
-            max-height: 200px;
-            overflow: auto;
-        }
         
         .hidden { display: none; }
         .btn {
@@ -346,7 +312,7 @@
         }
         .btn:hover { background-color: #66bb6a; }
 
-        /* Custom dialog block — คุม overlay/modal เอง ไม่พึ่ง browser dialog สำหรับ UI */
+        /* Dialog block */
         .dialog-overlay {
             display: none;
             position: fixed;
@@ -396,14 +362,13 @@
 </head>
 <body>
 
-<!-- Dialog block ที่คุมเอง — กดเลือก folder จะเปิด modal นี้ก่อน แล้วค่อยเปิดตัวเลือกโฟลเดอร์ -->
 <div id="folderDialogOverlay" class="dialog-overlay" onclick="closeFolderDialog(event)">
     <div class="dialog-block" onclick="event.stopPropagation()">
-        <h2>📂 เลือกโฟลเดอร์รูปภาพ</h2>
-        <p id="folderDialogDesc">กดปุ่มด้านล่างเพื่อเปิดตัวเลือกโฟลเดอร์ของระบบ จากนั้นเลือกโฟลเดอร์ที่มีไฟล์ .png</p>
+        <h2>📂 Select Image Folder</h2>
+        <p id="folderDialogDesc">Click the button below to open the system folder picker. Select the folder containing your .png files.</p>
         <div class="dialog-actions">
-            <button type="button" class="btn btn-cancel" onclick="closeFolderDialog()">ยกเลิก</button>
-            <button type="button" class="btn-open" onclick="openFolderPickerFromDialog()">เลือกโฟลเดอร์</button>
+            <button type="button" class="btn btn-cancel" onclick="closeFolderDialog()">Cancel</button>
+            <button type="button" class="btn-open" onclick="openFolderPickerFromDialog()">Choose Folder</button>
         </div>
     </div>
 </div>
@@ -411,47 +376,44 @@
 <div class="container">
     <div class="toolbar">
         <h1>🔍 AI Image Metadata Reader</h1>
-        <button type="button" class="btn-open" onclick="openFolderDialog()">📂 เลือก folder</button>
-        <span class="local-note" id="localNote">ทำงานบนเครื่องคุณเท่านั้น — เปิดไฟล์จาก local ไม่มีการอัปโหลด/ส่งไฟล์. ถ้าเบราว์เซอร์ถาม "Upload … files?" ให้กด Upload ได้ — เป็นแค่การให้หน้านี้อ่านไฟล์จากเครื่องคุณ ไม่มีการส่งขึ้นเน็ต</span>
-        <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="pok29dev" data-color="#FFDD00" data-emoji=""  data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
+        <button type="button" class="btn-open" onclick="openFolderDialog()">📂 Select Folder</button>
+        <span class="local-note" id="localNote">Runs locally only — No files are uploaded. If your browser asks to "Upload files", it is just granting permission to read them locally.</span>
+        <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="pok29dev" data-color="#FFDD00" data-emoji="" data-font="Cookie" data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>
         <input type="file" id="folderInput" webkitdirectory directory multiple accept="image/png" style="display: none;">
     </div>
 
     <div class="main-layout">
-        <!-- คอลัมน์ซ้าย: รายการโฟลเดอร์/ไฟล์ -->
         <div class="panel-filelist">
-            <div class="header">Image Browser — โฟลเดอร์ / ไฟล์</div>
+            <div class="header">Image Browser — Folders / Files</div>
             <div class="sort-bar">
-                <label>เรียงตาม:</label>
+                <label>Sort by:</label>
                 <select id="sortBy" onchange="applySort()">
-                    <option value="name">ตามชื่อ (name)</option>
-                    <option value="date">ตามวันที่ (date)</option>
-                    <option value="type">ตามประเภท (type)</option>
+                    <option value="name">Name</option>
+                    <option value="date">Date</option>
+                    <option value="type">Type</option>
                 </select>
                 <button type="button" class="btn-collapse" onclick="collapseAll()">Collapse all</button>
             </div>
             <div id="fileList" class="file-list">
-                <p style="color: #666; padding: 12px; margin: 0;">เปิดไฟล์เพื่อแสดงรายการรูป .png จากเครื่องคุณ (local only)</p>
+                <p style="color: #666; padding: 12px; margin: 0;">Open a folder to list .png files from your device.</p>
             </div>
         </div>
 
-        <!-- คอลัมน์กลาง: ดูรูป -->
         <div class="panel-image">
             <div class="header">Image View</div>
             <div class="image-wrap">
                 <img id="preview" src="" alt="Preview" style="display: none;">
-                <p id="imagePlaceholder" style="color: #666; margin: 0;">เลือกรูปจากรายการด้านซ้าย</p>
+                <p id="imagePlaceholder" style="color: #666; margin: 0;">Select an image from the list</p>
             </div>
         </div>
 
-        <!-- คอลัมน์ขวา: ดูข้อมูล -->
         <div class="panel-data">
             <div class="header">Data View</div>
             <div class="data-inner">
                 <div class="tabs">
                     <button class="tab-btn active" onclick="switchTab('simple')">✨ Prompt Text</button>
                     <button class="tab-btn" onclick="switchTab('raw')">📝 Raw JSON</button>
-                    <button class="tab-btn" onclick="switchTab('allmeta')">📋 All metadata</button>
+                    <button class="tab-btn" onclick="switchTab('allmeta')">📋 All Metadata</button>
                 </div>
                 <div id="content-simple">
                     <div id="paramsBlock" class="params-block" style="display: none;">
@@ -459,7 +421,7 @@
                         <div class="params-grid" id="paramsGrid"></div>
                     </div>
                     <div id="extractedPrompts">
-                        <p style="color: #777; text-align: center;">ยังไม่พบข้อมูล Prompt — เลือกรูปเพื่อดู metadata</p>
+                        <p style="color: #777; text-align: center;">No prompt found — Select an image to view metadata</p>
                     </div>
                 </div>
                 <div id="content-raw" class="hidden">
@@ -470,7 +432,7 @@
                     <div class="json-viewer" id="jsonWorkflow">No Data</div>
                 </div>
                 <div id="content-allmeta" class="hidden">
-                    <p style="color: #90a4ae; font-size: 12px; margin-bottom: 10px;">ข้อมูล metadata ทั้งหมดที่เก็บใน PNG (รวม chunk ที่ไม่ใช้มาตรฐาน ComfyUI)</p>
+                    <p style="color: #90a4ae; font-size: 12px; margin-bottom: 10px;">All metadata stored in PNG (including non-ComfyUI chunks)</p>
                     <div id="allPngMeta" class="meta-all-list"></div>
                 </div>
             </div>
@@ -485,14 +447,12 @@
     const fileListEl = document.getElementById('fileList');
 
     const isElectron = typeof window.electronAPI === 'object';
-
-    // เก็บข้อมูลไฟล์: โหมด Electron = path -> fullPath (string), โหมดเว็บ = path -> File
     let fileMap = {};
     let currentFileItems = [];
 
     if (isElectron) {
-        document.getElementById('folderDialogDesc').textContent = 'กดปุ่มด้านล่างเพื่อเลือกโฟลเดอร์ที่มีไฟล์ .png (แอปเดสก์ท็อป — ไม่มีหน้าต่างอัปโหลดของเบราว์เซอร์)';
-        document.getElementById('localNote').textContent = 'แอปเดสก์ท็อป — เปิดไฟล์จากเครื่องคุณเท่านั้น ไม่มีการอัปโหลด';
+        document.getElementById('folderDialogDesc').textContent = 'Click below to select a folder containing .png files (Desktop App Mode).';
+        document.getElementById('localNote').textContent = 'Desktop App — Accessing local files only.';
     } else {
         folderInput.addEventListener('change', handleFolder);
     }
@@ -546,7 +506,7 @@
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             if (!file.name.toLowerCase().endsWith('.png')) continue;
-            if (file.name.startsWith('._')) continue; // ข้ามไฟล์ระบบ macOS (resource fork)
+            if (file.name.startsWith('._')) continue; 
             const path = file.webkitRelativePath || file.name;
             fileMap[path] = file;
             const parts = path.split('/');
@@ -572,7 +532,7 @@
 
     function renderFileList(items, sortMode) {
         if (!items.length) {
-            fileListEl.innerHTML = '<p style="color:#666; padding:12px; margin:0;">ไม่พบไฟล์ .png ในโฟลเดอร์นี้</p>';
+            fileListEl.innerHTML = '<p style="color:#666; padding:12px; margin:0;">No .png files found in this folder</p>';
             return;
         }
 
@@ -588,7 +548,7 @@
 
         const byFolder = {};
         sorted.forEach(it => {
-            const key = it.folderPath || '(ราก)';
+            const key = it.folderPath || '(Root)';
             if (!byFolder[key]) byFolder[key] = [];
             byFolder[key].push(it);
         });
@@ -597,7 +557,7 @@
         let html = '';
         sortedFolders.forEach(folder => {
             const folderKey = escapeAttr(folder);
-            const folderLabel = folder === '(ราก)' ? '(ราก)' : escapeHtml(folder);
+            const folderLabel = folder === '(Root)' ? '(Root)' : escapeHtml(folder);
             html += `<div class="tree-node" data-folder="${folderKey}">`;
             html += `<div class="tree-folder file-item folder" data-folder-key="${folderKey}">`;
             html += `<span class="tree-toggle">▼</span><span>📁 ${folderLabel}</span>`;
@@ -631,11 +591,7 @@
     }
 
     function escapeAttr(s) {
-        return String(s)
-            .replace(/&/g, '&amp;')
-            .replace(/"/g, '&quot;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
+        return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
     function escapeHtml(s) {
         const div = document.createElement('div');
@@ -676,10 +632,10 @@
     function clearDataView() {
         const block = document.getElementById('paramsBlock');
         const grid = document.getElementById('paramsGrid');
-        if (block) { block.style.display = 'none'; }
-        if (grid) { grid.innerHTML = ''; }
+        if (block) block.style.display = 'none';
+        if (grid) grid.innerHTML = '';
         const container = document.getElementById('extractedPrompts');
-        if (container) { container.innerHTML = ''; }
+        if (container) container.innerHTML = '';
         const jp = document.getElementById('jsonPrompt');
         const jw = document.getElementById('jsonWorkflow');
         if (jp) jp.textContent = '';
@@ -690,13 +646,12 @@
 
     function extractPngMetadata(buffer) {
         clearDataView();
-
         const dataView = new DataView(buffer);
         const textDecoder = new TextDecoder('utf-8');
         let offset = 8;
         let promptData = null;
         let workflowData = null;
-        const allPngMeta = []; // { keyword, value, chunkType }
+        const allPngMeta = [];
 
         while (offset < dataView.byteLength) {
             const length = dataView.getUint32(offset);
@@ -705,9 +660,7 @@
 
             if (type === 'tEXt') {
                 let nullIndex = -1;
-                for (let i = 0; i < length; i++) {
-                    if (payload[i] === 0) { nullIndex = i; break; }
-                }
+                for (let i = 0; i < length; i++) { if (payload[i] === 0) { nullIndex = i; break; } }
                 if (nullIndex !== -1) {
                     const keyword = textDecoder.decode(payload.slice(0, nullIndex));
                     const text = textDecoder.decode(payload.slice(nullIndex + 1));
@@ -717,36 +670,28 @@
                 }
             } else if (type === 'zTXt') {
                 let nullIndex = -1;
-                for (let i = 0; i < length; i++) {
-                    if (payload[i] === 0) { nullIndex = i; break; }
-                }
+                for (let i = 0; i < length; i++) { if (payload[i] === 0) { nullIndex = i; break; } }
                 if (nullIndex !== -1) {
                     const keyword = textDecoder.decode(payload.slice(0, nullIndex));
-                    const compressed = payload.slice(nullIndex + 2);
-                    allPngMeta.push({ keyword, value: '(compressed ' + compressed.length + ' bytes)', chunkType: 'zTXt' });
+                    allPngMeta.push({ keyword, value: '(Compressed Data)', chunkType: 'zTXt' });
                 }
             } else if (type === 'iTXt') {
                 let nullIndex = -1;
-                for (let i = 0; i < length; i++) {
-                    if (payload[i] === 0) { nullIndex = i; break; }
-                }
+                for (let i = 0; i < length; i++) { if (payload[i] === 0) { nullIndex = i; break; } }
                 if (nullIndex !== -1) {
                     const keyword = textDecoder.decode(payload.slice(0, nullIndex));
                     const compFlag = payload[nullIndex + 1];
-                    const compMethod = payload[nullIndex + 2];
                     let pos = nullIndex + 3;
-                    let lang = '', trans = '';
-                    for (let i = pos; i < length; i++) { if (payload[i] === 0) { lang = textDecoder.decode(payload.slice(pos, i)); pos = i + 1; break; } }
-                    for (let i = pos; i < length; i++) { if (payload[i] === 0) { trans = textDecoder.decode(payload.slice(pos, i)); pos = i + 1; break; } }
+                    for (let i = pos; i < length; i++) { if (payload[i] === 0) { pos = i + 1; break; } }
+                    for (let i = pos; i < length; i++) { if (payload[i] === 0) { pos = i + 1; break; } }
                     const raw = payload.slice(pos);
-                    const value = compFlag === 0 ? textDecoder.decode(raw) : '(compressed ' + raw.length + ' bytes)';
+                    const value = compFlag === 0 ? textDecoder.decode(raw) : '(Compressed Data)';
                     allPngMeta.push({ keyword, value, chunkType: 'iTXt' });
                 }
             }
             offset += 12 + length;
         }
 
-        // ถ้าไม่มี prompt มาตรฐาน แต่มี metadata ชิ้นอื่นที่ parse เป็น ComfyUI prompt ได้ ให้ใช้แทน
         if (!promptData && allPngMeta.length) {
             for (const entry of allPngMeta) {
                 if (entry.keyword === 'prompt' || entry.keyword === 'workflow') continue;
@@ -760,7 +705,6 @@
             }
         }
 
-        // แสดง JSON ดิบ (ไม่มีข้อมูลให้เป็นค่าว่าง)
         document.getElementById('jsonPrompt').textContent = promptData ? JSON.stringify(promptData, null, 2) : '';
         document.getElementById('jsonWorkflow').textContent = workflowData ? JSON.stringify(workflowData, null, 2) : '';
 
@@ -770,29 +714,23 @@
         renderAllPngMetadata(allPngMeta);
     }
 
-    // --- โมดูลอ่าน metadata ไม่มาตรฐาน (XMP, Draw Things, ComfyUI ใน keyword อื่น, ข้อความทั่วไป) แล้วแสดงใน Prompt Text ---
     function extractNonStandardPrompts(allPngMeta) {
         const container = document.getElementById('extractedPrompts');
         if (!container || !allPngMeta || allPngMeta.length === 0) return;
-
         const standardKeywords = { prompt: true, workflow: true };
 
         for (const entry of allPngMeta) {
             const kw = (entry.keyword || '').toLowerCase();
             const value = entry.value;
             if (typeof value !== 'string' || value.length < 10) continue;
-
-            // ถ้าเป็น keyword มาตรฐาน (prompt/workflow) ไม่ต้องแสดงซ้ำในส่วน non-standard
             if (standardKeywords[kw]) continue;
 
-            // XMP / Draw Things (XML:com.adobe.xmp หรือมี xmp/adobe ใน keyword)
             if (kw.indexOf('xmp') !== -1 || kw.indexOf('adobe') !== -1 || kw.indexOf('xml') !== -1) {
                 const boxes = parseXMPForPrompts(value);
                 boxes.forEach(b => { appendPromptBox(container, b.title, b.text); });
                 continue;
             }
 
-            // ข้อความทั่วไป: แสดงเป็น Metadata: <keyword>
             if (value.length > 50 || value.trim().indexOf('{') !== 0) {
                 appendPromptBox(container, 'Metadata: ' + entry.keyword, value);
             }
@@ -804,11 +742,7 @@
         try {
             const parser = new DOMParser();
             const doc = parser.parseFromString(xmlStr, 'text/xml');
-            const ns = {
-                dc: 'http://purl.org/dc/elements/1.1/',
-                rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-                exif: 'http://ns.adobe.com/exif/1.0/'
-            };
+            const ns = { dc: 'http://purl.org/dc/elements/1.1/', rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', exif: 'http://ns.adobe.com/exif/1.0/' };
             let descriptionText = '';
             let userCommentText = '';
             const descNodes = doc.getElementsByTagNameNS(ns.dc, 'description');
@@ -824,12 +758,11 @@
             if (userCommentText) {
                 try {
                     const j = JSON.parse(userCommentText);
-                    if (typeof j.c === 'string' && j.c.trim()) boxes.push({ title: 'Draw Things — Positive', text: j.c });
-                    if (typeof j.uc === 'string' && j.uc.trim()) boxes.push({ title: 'Draw Things — Negative', text: j.uc });
+                    if (j.c) boxes.push({ title: 'Draw Things — Positive', text: j.c });
+                    if (j.uc) boxes.push({ title: 'Draw Things — Negative', text: j.uc });
                 } catch (_) {}
             }
             if (descriptionText.trim() && boxes.length === 0) boxes.push({ title: 'XMP Description', text: descriptionText.trim() });
-            else if (descriptionText.trim()) boxes.push({ title: 'XMP Description (full)', text: descriptionText.trim() });
         } catch (_) {}
         return boxes;
     }
@@ -852,157 +785,97 @@
         const container = document.getElementById('allPngMeta');
         if (!container) return;
         if (!entries || entries.length === 0) {
-            container.innerHTML = '<p style="color:#666;">ไม่พบ metadata ใน PNG</p>';
+            container.innerHTML = '<p style="color:#666;">No metadata found in PNG</p>';
             return;
         }
         const obj = {};
         entries.forEach(entry => {
             const key = entry.chunkType ? `${entry.keyword} (${entry.chunkType})` : entry.keyword;
-            let val = entry.value;
-            try {
-                const parsed = JSON.parse(entry.value);
-                val = parsed;
-            } catch (_) { /* keep as string */ }
-            obj[key] = val;
+            obj[key] = entry.value;
         });
-        const jsonStr = JSON.stringify(obj, null, 2);
-        container.innerHTML = '<pre class="json-viewer" id="allPngMetaJson">' + escapeHtml(jsonStr) + '</pre>';
+        container.innerHTML = '<pre class="json-viewer">' + escapeHtml(JSON.stringify(obj, null, 2)) + '</pre>';
     }
 
-    // --- แสดง block Model, Size, Sampler, Scheduler, Step, cfg ---
     function renderParamsBlock(promptJson) {
         const block = document.getElementById('paramsBlock');
         const grid = document.getElementById('paramsGrid');
         if (!block || !grid) return;
-
         const params = extractParamsFromPrompt(promptJson);
-        if (!params || (!params.modelName && !params.size && !params.sampler && !params.scheduler && params.step == null && params.cfg == null)) {
+        if (!params || (!params.modelName && !params.size && !params.sampler)) {
             block.style.display = 'none';
             return;
         }
-
         const rows = [];
-        if (params.modelName != null) { rows.push(['Model name', params.modelName]); }
-        if (params.size != null) { rows.push(['Size', params.size]); }
-        if (params.sampler != null) { rows.push(['Sampler', params.sampler]); }
-        if (params.scheduler != null) { rows.push(['Scheduler', params.scheduler]); }
-        if (params.step != null) { rows.push(['Step', String(params.step)]); }
-        if (params.cfg != null) { rows.push(['cfg', String(params.cfg)]); }
+        if (params.modelName) rows.push(['Model', params.modelName]);
+        if (params.size) rows.push(['Size', params.size]);
+        if (params.sampler) rows.push(['Sampler', params.sampler]);
+        if (params.scheduler) rows.push(['Scheduler', params.scheduler]);
+        if (params.step != null) rows.push(['Steps', String(params.step)]);
+        if (params.cfg != null) rows.push(['CFG', String(params.cfg)]);
 
-        grid.innerHTML = rows.map(([label, value]) =>
-            `<span class="param-label">${escapeHtml(label)}</span><span class="param-value">${escapeHtml(value)}</span>`
-        ).join('');
+        grid.innerHTML = rows.map(([l, v]) => `<span class="param-label">${escapeHtml(l)}</span><span class="param-value">${escapeHtml(v)}</span>`).join('');
         block.style.display = 'block';
     }
 
     function extractParamsFromPrompt(promptJson) {
         if (!promptJson || typeof promptJson !== 'object') return null;
-        const nodes = promptJson;
         let modelName = null, size = null, sampler = null, scheduler = null, step = null, cfg = null;
-
-        for (const node of Object.values(nodes)) {
+        for (const node of Object.values(promptJson)) {
             const type = node.class_type;
             const inputs = node.inputs || {};
-            if (type === 'KSampler' || type === 'KSamplerAdvanced') {
-                if (inputs.sampler_name != null) sampler = inputs.sampler_name;
-                if (inputs.scheduler != null) scheduler = inputs.scheduler;
-                if (inputs.steps != null) step = inputs.steps;
-                if (inputs.cfg != null) cfg = inputs.cfg;
+            if (type?.includes('Sampler')) {
+                sampler = inputs.sampler_name || sampler;
+                scheduler = inputs.scheduler || scheduler;
+                step = inputs.steps || step;
+                cfg = inputs.cfg || cfg;
             }
-            if (type === 'EmptyLatentImage' || type === 'EmptySD3LatentImage' || type === 'EmptySDXLLatentImage') {
-                const w = inputs.width, h = inputs.height;
-                if (w != null && h != null) size = `${w} × ${h}`;
-            }
-            if (type === 'UNETLoader' && inputs.unet_name != null) modelName = inputs.unet_name;
-            if ((type === 'CheckpointLoader' || type === 'CheckpointLoaderSimple') && inputs.ckpt_name != null) modelName = inputs.ckpt_name;
+            if (type?.includes('EmptyLatentImage')) size = `${inputs.width} × ${inputs.height}`;
+            if (type?.includes('Loader')) modelName = inputs.ckpt_name || inputs.unet_name || modelName;
         }
         return { modelName, size, sampler, scheduler, step, cfg };
     }
 
-    // --- ค้นหาและแสดง Text Prompt ---
     function extractAndShowPrompts(promptJson) {
         const container = document.getElementById('extractedPrompts');
-        container.innerHTML = ""; // ล้างข้อมูลเก่า
-
+        container.innerHTML = "";
         if (!promptJson) return;
-
         let foundCount = 0;
-
-        // วนลูปทุก Node ใน JSON
         for (const [key, node] of Object.entries(promptJson)) {
             let textValue = null;
-            let nodeType = node.class_type;
+            const nodeType = node.class_type;
+            if (nodeType === "PrimitiveStringMultiline" || nodeType === "String") textValue = node.inputs?.value;
+            else if (nodeType?.includes("CLIPTextEncode")) textValue = node.inputs?.text;
+            else if (node.inputs?.text && typeof node.inputs.text === 'string' && node.inputs.text.length > 5) textValue = node.inputs.text;
 
-            // 1. เช็คกรณี PrimitiveStringMultiline (ตามที่คุณต้องการ)
-            if (nodeType === "PrimitiveStringMultiline" || nodeType === "String") {
-                if (node.inputs && node.inputs.value) {
-                    textValue = node.inputs.value;
-                }
-            }
-            // 2. เช็คกรณี CLIPTextEncode (Prompt มาตรฐานของ ComfyUI)
-            else if (nodeType === "CLIPTextEncode" || nodeType === "CLIPTextEncodeSDXL") {
-                if (node.inputs && node.inputs.text) {
-                    textValue = node.inputs.text;
-                }
-            }
-            // 3. เช็คกรณี ShowText หรืออื่นๆ
-            else if (node.inputs && typeof node.inputs.text === 'string' && node.inputs.text.length > 5) {
-                textValue = node.inputs.text;
-            }
-
-            // ถ้าเจอข้อความ ให้สร้าง HTML แสดงผล
-            if (textValue && typeof textValue === 'string' && textValue.trim().length > 0) {
+            if (textValue && textValue.trim()) {
                 foundCount++;
+                const textId = `ptext-${key}`;
                 const box = document.createElement('div');
                 box.className = 'prompt-box';
-                
-                // สร้าง ID สุ่มสำหรับปุ่ม Copy
-                const textId = `ptext-${key}`;
-                
-                box.innerHTML = `
-                    <div class="prompt-label">
-                        <span>Node ID: ${key} (${nodeType})</span>
-                        <button class="btn" onclick="copyText('${textId}')">Copy</button>
-                    </div>
-                    <div class="prompt-text" id="${textId}">${textValue}</div>
-                `;
+                box.innerHTML = `<div class="prompt-label"><span>Node ${key} (${nodeType})</span><button class="btn" onclick="copyText('${textId}')">Copy</button></div><div class="prompt-text" id="${textId}">${textValue}</div>`;
                 container.appendChild(box);
             }
         }
-
-        if (foundCount === 0) container.innerHTML = '';
+        if (foundCount === 0 && container.innerHTML === "") container.innerHTML = '<p style="color: #777; text-align: center;">No valid prompts detected in nodes.</p>';
     }
 
     function switchTab(tabName) {
-        const simpleDiv = document.getElementById('content-simple');
-        const rawDiv = document.getElementById('content-raw');
-        const allmetaDiv = document.getElementById('content-allmeta');
-        const btns = document.querySelectorAll('.tab-btn');
-
-        btns.forEach(b => b.classList.remove('active'));
-        simpleDiv.classList.add('hidden');
-        rawDiv.classList.add('hidden');
-        if (allmetaDiv) allmetaDiv.classList.add('hidden');
-
-        if (tabName === 'simple') {
-            simpleDiv.classList.remove('hidden');
-            btns[0].classList.add('active');
-        } else if (tabName === 'raw') {
-            rawDiv.classList.remove('hidden');
-            btns[1].classList.add('active');
-        } else if (tabName === 'allmeta' && allmetaDiv) {
-            allmetaDiv.classList.remove('hidden');
-            btns[2].classList.add('active');
-        }
+        const tabs = ['simple', 'raw', 'allmeta'];
+        tabs.forEach(t => {
+            const el = document.getElementById('content-' + t);
+            if (el) el.classList.add('hidden');
+        });
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        
+        document.getElementById('content-' + tabName).classList.remove('hidden');
+        const activeIdx = tabs.indexOf(tabName);
+        document.querySelectorAll('.tab-btn')[activeIdx].classList.add('active');
     }
 
     function copyText(elementId) {
         const text = document.getElementById(elementId).innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert('คัดลอกข้อความแล้ว!');
-        });
+        navigator.clipboard.writeText(text).then(() => { alert('Copied to clipboard!'); });
     }
 </script>
-
 </body>
 </html>
